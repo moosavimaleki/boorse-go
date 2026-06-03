@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@DrMoo19 TSETMS Watcher</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.rtl.css" rel="stylesheet">
+    <link href="css/Chart.min.css" rel="stylesheet">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.js"></script>
+    <script src="js/Chart.min.js"></script>
+    <link href="//fdn.fontcdn.ir" rel="preconnect">
+    <link href="//v1.fontapi.ir" rel="preconnect">
+    <link href="https://v1.fontapi.ir/css/Vazir" rel="stylesheet">
+    <link href="https://v1.fontapi.ir/css/Lalezar" rel="stylesheet">
+
+</head>
+<body dir="rtl">
+<script>
+    var elem = document.documentElement;
+
+    function toggleFullScreen() {
+        if (!document.fullscreenElement &&    // alternative standard method
+            !document.mozFullScreenElement && !document.webkitFullscreenElement) {  // current working methods
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) {
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullscreen) {
+                document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+            }
+        } else {
+            if (document.cancelFullScreen) {
+                document.cancelFullScreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitCancelFullScreen) {
+                document.webkitCancelFullScreen();
+            }
+        }
+    }
+
+    function saveResolution() {
+        async function saveIt() {
+            await goSaveResolution(window.screen.availWidth, window.screen.availHeight);
+        }
+
+        saveIt()
+    }
+
+</script>
+<style>
+
+    @media (min-width: 1200px) {
+        .seven-cols .col-sm-1 {
+            width: 14.285714285714285714285714285714%;
+            *width: 14.285714285714285714285714285714%;
+            max-width: 14.285714285714285714285714285714%;
+            flex: none;
+        }
+
+        .eight-cols .col-sm-1 {
+            width: 12.50%;
+            *width: 12.50%;
+            max-width: 12.50%;
+            flex: none;
+        }
+
+        .eight-cols .col-sm-5 {
+            width: 62.5%;
+            *width: 62.5%;
+            max-width: 62.5%;
+            flex: none;
+        }
+
+        .seven-cols .col-sm-6 {
+            width: 42.857142857%;
+            *width: 42.857142857%;
+            max-width: 42.857142857%;
+            flex: none;
+        }
+    }
+
+    body {
+        font-family: 'Vazir', 'Tahoma', sans-serif;
+    }
+
+
+    .new-signal {
+        -webkit-animation: new-sginal-anim 1s infinite; /* Safari 4+ */
+        -moz-animation: new-sginal-anim 1s infinite; /* Fx 5+ */
+        -o-animation: new-sginal-anim 1s infinite; /* Opera 12+ */
+        animation: new-sginal-anim 1s infinite; /* IE 10+, Fx 29+ */
+    }
+
+    @-webkit-keyframes new-sginal-anim {
+        0% {
+            background: rgb(33, 41, 70);
+            background: linear-gradient(90deg, rgba(33, 41, 70, 0.17) 0%, rgba(8, 247, 254, 0.25) 1%, rgba(33, 41, 70, 0.17) 100%);
+        }
+        5% {
+            background: rgb(33, 41, 70);
+            background: linear-gradient(90deg, rgba(33, 41, 70, 0.17) 0%, rgba(8, 247, 254, 0.25) 10%, rgba(33, 41, 70, 0.17) 100%);
+        }
+        10% {
+            background: rgb(33, 41, 70);
+            background: linear-gradient(90deg, rgba(33, 41, 70, 0.17) 0%, rgba(8, 247, 254, 0.25) 20%, rgba(33, 41, 70, 0.17) 100%);
+        }
+        15% {
+            background: rgb(33, 41, 70);
+            background: linear-gradient(90deg, rgba(33, 41, 70, 0.17) 0%, rgba(8, 247, 254, 0.25) 30%, rgba(33, 41, 70, 0.17) 100%);
+        }
+        20% {
+            background: rgb(33, 41, 70);
+            background: linear-gradient(90deg, rgba(33, 41, 70, 0.17) 0%, rgba(8, 247, 254, 0.25) 40%, rgba(33, 41, 70, 0.17) 100%);
+        }
+        25% {
+            background: rgb(33, 41, 70);
+            background: linear-gradient(90deg, rgba(33, 41, 70, 0.17) 0%, rgba(8, 247, 254, 0.25) 50%, rgba(33, 41, 70, 0.17) 100%);
+        }
+        30% {
+            background: rgb(33, 41, 70);
+            background: linear-gradient(90deg, rgba(33, 41, 70, 0.17) 0%, rgba(8, 247, 254, 0.25) 60%, rgba(33, 41, 70, 0.17) 100%);
+        }
+        35% {
+            background: rgb(33, 41, 70);
+            background: linear-gradient(90deg, rgba(33, 41, 70, 0.17) 0%, rgba(8, 247, 254, 0.25) 70%, rgba(33, 41, 70, 0.17) 100%);
+        }
+        40% {
+            background: rgb(33, 41, 70);
+            background: linear-gradient(90deg, rgba(33, 41, 70, 0.17) 0%, rgba(8, 247, 254, 0.25) 80%, rgba(33, 41, 70, 0.17) 100%);
+        }
+        45% {
+            background: rgb(33, 41, 70);
+            background: linear-gradient(90deg, rgba(33, 41, 70, 0.17) 0%, rgba(8, 247, 254, 0.25) 90%, rgba(33, 41, 70, 0.17) 100%);
+        }
+        50% {
+            background: rgb(33, 41, 70);
+            background: linear-gradient(90deg, rgba(33, 41, 70, 0.17) 0%, rgba(8, 247, 254, 0.25) 99%, rgba(33, 41, 70, 0.17) 100%);
+        }
+
+        55% {
+            background: rgb(33, 41, 70);
+            background: linear-gradient(90deg, rgba(33, 41, 70, 0.17) 0%, rgba(8, 247, 254, 0.25) 90%, rgba(33, 41, 70, 0.17) 100%);
+        }
+        60% {
+            background: rgb(33, 41, 70);
+            background: linear-gradient(90deg, rgba(33, 41, 70, 0.17) 0%, rgba(8, 247, 254, 0.25) 80%, rgba(33, 41, 70, 0.17) 100%);
+        }
+        65% {
+            background: rgb(33, 41, 70);
+            background: linear-gradient(90deg, rgba(33, 41, 70, 0.17) 0%, rgba(8, 247, 254, 0.25) 70%, rgba(33, 41, 70, 0.17) 100%);
+        }
+        70% {
+            background: rgb(33, 41, 70);
+            background: linear-gradient(90deg, rgba(33, 41, 70, 0.17) 0%, rgba(8, 247, 254, 0.25) 60%, rgba(33, 41, 70, 0.17) 100%);
+        }
+        75% {
+            background: rgb(33, 41, 70);
+            background: linear-gradient(90deg, rgba(33, 41, 70, 0.17) 0%, rgba(8, 247, 254, 0.25) 50%, rgba(33, 41, 70, 0.17) 100%);
+        }
+        80% {
+            background: rgb(33, 41, 70);
+            background: linear-gradient(90deg, rgba(33, 41, 70, 0.17) 0%, rgba(8, 247, 254, 0.25) 40%, rgba(33, 41, 70, 0.17) 100%);
+        }
+        85% {
+            background: rgb(33, 41, 70);
+            background: linear-gradient(90deg, rgba(33, 41, 70, 0.17) 0%, rgba(8, 247, 254, 0.25) 30%, rgba(33, 41, 70, 0.17) 100%);
+        }
+        90% {
+            background: rgb(33, 41, 70);
+            background: linear-gradient(90deg, rgba(33, 41, 70, 0.17) 0%, rgba(8, 247, 254, 0.25) 20%, rgba(33, 41, 70, 0.17) 100%);
+        }
+        95% {
+            background: rgb(33, 41, 70);
+            background: linear-gradient(90deg, rgba(33, 41, 70, 0.17) 0%, rgba(8, 247, 254, 0.25) 10%, rgba(33, 41, 70, 0.17) 100%);
+        }
+
+    }
+
+    .sectionHeightSettings {
+        height: 4vh;
+    }
+
+    .sectionHeightTitle {
+        height: 3vh;
+    }
+
+    .sectionHeight {
+        height: 45vh;
+    }
+
+    .signal-box {
+        box-shadow: inset 0px 0px 10px #17a2b8;
+        color: white;
+        position: relative;
+        height: 100%;
+        overflow-y: scroll;
+    }
+
+    /* width */
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        border-radius: 10px;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: rgba(76, 94, 159, 0.40);
+        border-radius: 10px;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgba(76, 94, 159, 0.90);
+    }
+
+    .title-box {
+        box-shadow: inset 0 0 5px #08F7FE;
+        color: white;
+        font-size: 1.3vw;
+        text-align: center;
+        font-family: 'Lalezar', 'Tahoma', sans-serif;
+        position: relative;
+        height: 100%;
+    }
+
+    .signal-row {
+        color: white;
+        text-align: center;
+        direction: revert;
+        width: 100%;
+        /*font-size: 1.5vw;*/
+    }
+
+    .border-cyan {
+        border-color: #08F7FE !important;
+    }
+
+    .border-pink {
+        border-color: #FE53BB !important;
+    }
+
+    .border-yellow {
+        border-color: #F5D300 !important;
+    }
+
+    .border-green {
+        border-color: #00ff41 !important;
+    }
+
+    .back-dark {
+        background-color: #212946;
+    }
+
+    .box-shadow-cyan {
+        box-shadow: inset 0px 0px 5px #08F7FE;
+    }
+
+    .box-shadow-pink {
+        box-shadow: inset 0px 0px 5px #FE53BB;
+    }
+
+    .box-shadow-yellow {
+        box-shadow: inset 0px 0px 5px #F5D300;
+    }
+
+    .box-shadow-green {
+        box-shadow: inset 0px 0px 5px #00ff41;
+    }
+
+    .signal-min-box {
+        position: relative;
+        /*height: 46%;*/
+        height: 23vh !important;
+        overflow-y: scroll;
+        padding-right: 0px;
+        padding-left: 0;
+        /*border-bottom: solid 1px #0f6674;*/
+    }
+
+    .signal-min-title {
+        color: white;
+        text-align: center;
+        position: absolute;
+        font-family: 'Lalezar', 'Tahoma', sans-serif;
+        left: 0;
+        font-size: 1.3vw;
+        vertical-align: center;
+        height: 8%;
+        border-right: none !important;
+        border-left: none !important;
+        box-shadow: inset 0px 0px 10px #17a2b8;
+    }
+
+    .signal-min-title-fake {
+        height: 8%;
+    }
+
+    .small-signal .signal-row {
+        /*font-size: 1.0vw;*/
+    }
+
+
+    .signal-size-5 .signal-row {
+        font-size: 0.5vw;
+    }
+
+    .signal-size-6 .signal-row {
+        font-size: 0.6vw;
+    }
+
+    .signal-size-7 .signal-row {
+        font-size: 0.7vw;
+    }
+
+    .signal-size-8 .signal-row {
+        font-size: 0.8vw;
+    }
+
+    .signal-size-9 .signal-row {
+        font-size: 0.9vw;
+    }
+
+    .signal-size-10 .signal-row {
+        font-size: 1.0vw;
+    }
+
+    .signal-size-11 .signal-row {
+        font-size: 1.1vw;
+    }
+
+    .signal-size-12 .signal-row {
+        font-size: 1.2vw;
+    }
+
+    .signal-size-13 .signal-row {
+        font-size: 1.3vw;
+    }
+
+    .signal-size-14 .signal-row {
+        font-size: 1.4vw;
+    }
+
+    .signal-size-15 .signal-row {
+        font-size: 1.5vw;
+    }
+
+    .signal-size-16 .signal-row {
+        font-size: 1.6vw;
+    }
+
+    /* back #212946*/
+</style>
+
+<div class="container-fluid">
+    <div class="row sectionHeightSettings back-dark">
+        <div class="col-sm-8 title-box d-inline-block border border-cyan back-dark" id="log">
+        </div>
+        <div class="col-sm-1 title-box d-inline-block border border-cyan back-dark">
+            <a class="btn btn-primary" onclick="inc_font()">+</a>
+            <a class="btn btn-primary" onclick="red_font()">-</a>
+        </div>
+        <div class="col-sm-3 title-box d-inline-block border border-cyan back-dark">
+            <a class="btn btn-info" id="full-screen"><i class="fa"></i> تمام صفحه</a>
+            <a class="btn btn-warning" id="load-force"><i class="fa"></i> لود تنظیمات</a>
+            <a class="btn btn-warning" id="load-block"><i class="fa"></i> لود بلاک</a>
+        </div>
+    </div>
+    <div class="row sectionHeightTitle eight-cols">
+        <div class="col-sm-1 title-box d-inline-block border border-cyan back-dark">
+            گزارش سود
+        </div>
+        <div class="col-sm-1 title-box d-inline-block border border-cyan back-dark">
+            افزایش سرمایه
+        </div>
+        <div class="col-sm-1 title-box d-inline-block border border-cyan back-dark">
+            باکس قدرتمند
+        </div>
+        <div class="col-sm-1 title-box d-inline-block border border-cyan back-dark">
+            حجم به میانگین ماه
+        </div>
+        <div class="col-sm-1 title-box d-inline-block border border-cyan back-dark">
+            کد به کد
+        </div>
+        <div class="col-sm-1 title-box d-inline-block border border-cyan back-dark">
+            صفوف فروش
+        </div>
+        <div class="col-sm-1 title-box d-inline-block border border-cyan back-dark">
+            جمع شدن صف فروش
+        </div>
+        <div class="col-sm-1 title-box d-inline-block border border-cyan back-dark ">
+            رنج +/-
+        </div>
+
+    </div>
+    <div class="row sectionHeight eight-cols">
+        <div class="col-sm-1  signal-box fm-sb  d-inline-block border border-cyan back-dark" id="sood">
+        </div>
+        <div class="col-sm-1 d-inline-block border border-cyan back-dark" style="padding: 0;">
+            <div class="col-sm-12 signal-min-box fm-sb" id="afzayeshSarmaye">
+            </div>
+            <div class="col-sm-12  border border-cyan signal-min-title">
+                پول داغ
+            </div>
+            <div class="signal-min-title-fake"></div>
+            <div class="col-sm-12 signal-min-box fm-sb" id="hotMoney">
+            </div>
+        </div>
+        <div class="col-sm-1 d-inline-block border border-cyan back-dark" style="padding: 0;">
+            <div class="col-sm-12 signal-min-box fm-sb" id="power-box">
+            </div>
+            <div class="col-sm-12  border border-cyan signal-min-title">
+                احتمال عرضه
+            </div>
+            <div class="signal-min-title-fake"></div>
+            <div class="col-sm-12 signal-min-box fm-sb" id="arze">
+            </div>
+        </div>
+        <div class="col-sm-1  signal-box fm-sb  d-inline-block border border-cyan back-dark" id="vol">
+        </div>
+        <div class="col-sm-1  signal-box fm-sb  d-inline-block border border-cyan back-dark" id="code">
+        </div>
+        <div class="col-sm-1  signal-box fm-sb  d-inline-block border border-cyan back-dark" id="safeForooshValue">
+        </div>
+        <div class="col-sm-1  signal-box fm-sb  d-inline-block border border-cyan back-dark small-signal "
+             id="taharok">
+        </div>
+        <div class="col-sm-1  signal-box fm-sb  d-inline-block border border-cyan back-dark small-signal "
+             id="range">
+        </div>
+    </div>
+    <div class="row sectionHeightTitle eight-cols">
+        <div class="col-sm-5 title-box d-inline-block border border-cyan back-dark">
+            نمودار ها
+        </div>
+        <div class="col-sm-1 title-box d-inline-block border border-cyan back-dark">
+            صفوف خرید
+        </div>
+        <div class="col-sm-1 title-box d-inline-block border border-cyan back-dark">
+            ایجاد/افزایش صف خرید
+        </div>
+        <div class="col-sm-1 title-box d-inline-block border border-cyan back-dark">
+            آستانه صف (+قدرت)
+        </div>
+
+    </div>
+    <div class="row sectionHeight eight-cols">
+        <div class="col-sm-5" style="background-color:#212945;">
+            <canvas id="groups_chart" style="width: 100%;height: 26vh"></canvas>
+            <canvas id="qod_chart" style="width: 100%;height: 20vh"></canvas>
+        </div>
+        <div class="col-sm-1  signal-box fm-sb  d-inline-block border border-cyan back-dark" id="safeKharidValue">
+        </div>
+        <div class="col-sm-1  signal-box fm-sb  d-inline-block border border-cyan back-dark small-signal" id="saf">
+        </div>
+        <div class="col-sm-1  signal-box fm-sb  d-inline-block border border-cyan back-dark" id="astane">
+        </div>
+
+    </div>
+</div>
+<script>
+    groups_chart = null
+    qod_chart = null
+    font_size = 12
+    fm_boxs = null
+    sounds = {}
+
+
+    SIGNALS = {
+        sood: "sood",
+        codeBeCode: "codeBeCode",
+        ehtemalArze: "ehtemalArze",
+        rangeMosbat: "rangeMosbat",
+        rangeManfi: "rangeManfi",
+        taharok: "taharok",
+        astane: "astane",
+        safeKharid: "safeKharid",
+        taharokSafeKharid: "taharokSafeKharid",
+        boxGhodratmand: "boxGhodratmand",
+        vol: "vol",
+        safeForooshValue: "safeForooshValue",
+        safeKharidValue: "safeKharidValue",
+        hotMoney: "hotMoney",
+        afzayeshSarmaye: "afzayeshSarmaye",
+    }
+
+    Object.keys(SIGNALS).forEach(function (signalName) {
+        sounds[signalName] = null
+    })
+
+    function inc_font() {
+        font_size++
+        for (i = 0; i < fm_boxs.length; i++) {
+            $(fm_boxs[i])
+                .removeClass(function (index, className) {
+                    return (className.match(/(^|\s)signal-size-\S+/g) || []).join(' ');
+                })
+                .addClass("signal-size-" + (font_size));
+        }
+    }
+
+    function red_font() {
+        font_size--
+        for (i = 0; i < fm_boxs.length; i++) {
+            $(fm_boxs[i])
+                .removeClass(function (index, className) {
+                    return (className.match(/(^|\s)signal-size-\S+/g) || []).join(' ');
+                })
+                .addClass("signal-size-" + (font_size));
+        }
+    }
+
+    function getSignalIdByName(name) {
+        const map = {
+            "codeBeCode": "code",
+            "ehtemalArze": "arze",
+            "rangeMosbat": "range",
+            "rangeManfi": "range",
+            "taharok": "taharok",
+            "astane": "astane",
+            "safeKharid": "saf",
+            "taharokSafeKharid": "saf",
+            "boxGhodratmand": "power-box",
+            "vol": "vol",
+            "safeForooshValue": "safeForooshValue",
+            "safeKharidValue": "safeKharidValue",
+            "hotMoney": "hotMoney",
+            "afzayeshSarmaye": "afzayeshSarmaye",
+            "sood": "sood",
+        }
+        return map[name]
+    }
+
+    function makeSignalRow(signal, badges = [], add_time = true, new_signal = true, tooltip = true) {
+        let now = new Date()
+        let badge = "";
+        if (add_time) {
+            badge = '<span class="badge badge-warning">' + now.getHours() + ':' + now.getMinutes() + '</span>'
+        }
+
+        badges.forEach(function (badges) {
+            badge += '<span class="badge badge-' + badges.class + '">' + badges.msg + '</span>'
+        })
+
+        new_signal = new_signal ? "new-signal" : "";
+        var html = ""
+        if (tooltip && signal.Info) {
+            Object.keys(signal.Info).forEach(function (key) {
+                var val = signal.Info[key]
+                html += "<li>" + key + ":<i>" + val + "</i></li>"
+            })
+        }
+
+        if (html) {
+            html = "<ul>" + html + "</ul>"
+            return $('<div data-toggle="tooltip" data-html="true" title="' + html + '" class="signal-row ' + new_signal + '">' + signal.NameFa + ' ' + badge + '</div>');
+        }
+        return $('<div class="signal-row ' + new_signal + '">' + signal.NameFa + ' ' + badge + '</div>');
+    }
+
+    function addSignal(signal) {
+        if (
+            signal.Signal === SIGNALS.astane ||
+            // signal.Signal === SIGNALS.hotMoney ||
+            // signal.Signal === SIGNALS.astane ||
+            // signal.Signal === SIGNALS.safeKharid ||
+            !!0
+        ) {
+            console.warn(signal)
+
+        }
+        let id = "#" + getSignalIdByName(signal.Signal)
+        let box = $(id)
+        let signalRow;
+        if (sounds[signal.Signal] !== null) {
+            sounds[signal.Signal].play()
+        }
+        if (signal.Signal === SIGNALS.boxGhodratmand) {
+            let badges = []
+            switch (signal.Info.type) {
+                case "both":
+                    badges.push({msg: "🟡", class: "warning"})
+                    break;
+                case "kharid":
+                    badges.push({msg: "🟢", class: "success"})
+                    break;
+                case "foroosh":
+                    badges.push({msg: "🔴", class: "danger"})
+                    break;
+            }
+            signalRow = makeSignalRow(signal, badges)
+        } else if (signal.Signal === SIGNALS.afzayeshSarmaye) {
+            let badges = []
+            switch (signal.Info.type) {
+                case "P":
+                    badges.push({msg: "📜", class: "info"})
+                    break;
+                default:
+                case "M":
+                    badges.push({msg: "✅", class: "success"})
+                    break;
+            }
+            badges.push({msg: signal.Info.percent + "%", class: "warning"})
+            signalRow = makeSignalRow(signal, badges)
+        } else if (signal.Signal === SIGNALS.sood) {
+            let badges = []
+            if (parseInt(signal.Info["diff%"]) < 0) {
+                badges.push({msg: "🔻" + signal.Info["diff%"]+"%", class: "info"})
+            } else {
+                badges.push({msg: "🔺" + signal.Info["diff%"]+"%", class: "success"})
+            }
+            signalRow = makeSignalRow(signal, badges)
+        } else if (signal.Signal === SIGNALS.rangeManfi) {
+            let badges = []
+            badges.push({msg: "🔻", class: "danger"})
+            signalRow = makeSignalRow(signal, badges)
+        } else if (signal.Signal === SIGNALS.rangeMosbat) {
+            let badges = []
+            badges.push({msg: "🔺", class: "success"})
+            signalRow = makeSignalRow(signal, badges)
+        } else if (signal.Signal === SIGNALS.taharokSafeKharid) {
+            let badges = []
+            badges.push({msg: "🛫", class: "success"})
+            signalRow = makeSignalRow(signal, badges)
+        } else if (signal.Signal === SIGNALS.safeKharid) {
+            let badges = []
+            badges.push({msg: "🆕", class: "info"})
+            signalRow = makeSignalRow(signal, badges)
+        } else if (signal.Signal === SIGNALS.hotMoney) {
+            let badges = []
+            if (signal.Info.type === "buy") {
+                badges.push({msg: signal.Info.value + "B", class: "success"})
+            } else {
+                badges.push({msg: signal.Info.value + "B", class: "danger"})
+            }
+            signalRow = makeSignalRow(signal, badges)
+        } else {
+            signalRow = makeSignalRow(signal)
+        }
+        box.prepend(signalRow)
+        signalRow.tooltip()
+        setTimeout(() => {
+            signalRow.removeClass("new-signal")
+        }, 10000)
+    }
+
+    function formatNum(num, digit, divide) {
+        num = parseFloat(num) / divide
+        return parseFloat(num).toFixed(digit)
+    }
+
+    function updateLists(_id, obj) {
+        let id = "#" + getSignalIdByName(_id)
+        let box = $(id)
+        window.ooo = obj
+        box.html("")
+        obj.forEach((signal, index) => {
+            try {
+                let signalRow = "";
+                if (_id === "safeForooshValue") {
+                    signalRow = makeSignalRow(signal, [{
+                        msg: formatNum(signal["SortValue"], 2, 1e10),
+                        class: "danger"
+                    }], false, false, false)
+                } else if (_id === "safeKharidValue") {
+                    signalRow = makeSignalRow(signal, [{
+                        msg: formatNum(signal["SortValue"], 2, 1e10),
+                        class: "success"
+                    }], false, false, false)
+                } else if (_id === "vol") {
+                    signalRow = makeSignalRow(signal, [{
+                        msg: formatNum(signal["SortValue"], 2, 1),
+                        class: "info"
+                    }], false, false, false)
+                }
+                box.append(signalRow)
+            } catch (e) {
+                console.error(e)
+            }
+        });
+        // let signalRow = makeSignalRow(signal)
+        // box.prepend(signalRow)
+        // setTimeout(() => {
+        //     signalRow.removeClass("new-signal")
+        // }, 10000)
+    }
+
+    function updateGroupCharts(signal) {
+        // console.warn(signal)
+        window.s = signal
+
+        const listOfGroupPowerColor = signal.ListOfGroupPower.map(function (item) {
+            return item < 0 ? 'rgba(219,48,152,0.75)' : 'rgba(0,220,28,0.75)'
+        })
+        const listOfGroupRangeColor = signal.ListOfGroupRange.map(function (item) {
+            return item < 0 ? '#FE53BB' : '#00ff41'
+        })
+        console.log(signal.ListOfGroupName)
+        groups_chart.data.labels = signal.ListOfGroupName
+        console.log(groups_chart.data.labels)
+        groups_chart.data.datasets[0].data = signal.ListOfGroupRange
+        groups_chart.data.datasets[1].data = signal.ListOfGroupPower
+        groups_chart.data.datasets[0].backgroundColor = listOfGroupRangeColor
+        groups_chart.data.datasets[1].backgroundColor = listOfGroupPowerColor
+        groups_chart.update();
+    }
+
+    function updateAskBidCharts(signal) {
+        // console.warn(signal)
+        var label = signal.StepOfOrderValue;
+        if (label.length < 300) {
+            var last = label[label.length - 1]
+            var tmp = Array.from(Array(300 - label.length).keys())
+            tmp = tmp.map(function (item) {
+                return last + item
+            })
+            label = label.concat(tmp)
+        }
+        var now = new Date()
+        now.setHours(7)
+        now.setMinutes(0)
+        now.setSeconds(0)
+        now.setMilliseconds(0)
+        var nowunix = now.getTime()
+        label = label.map(function (value) {
+            var tmp = new Date(nowunix + value * 60000)
+            return tmp.getHours() + ":" + tmp.getMinutes()
+        })
+        qod_chart.data.labels = label
+        qod_chart.data.datasets[0].data = signal.BidValueOfOrders
+        qod_chart.data.datasets[1].data = signal.AskValueOfOrders
+        qod_chart.update();
+    }
+
+    function fileExists(url) {
+        try {
+            var http = new XMLHttpRequest();
+            http.open('HEAD', url, false);
+            http.send();
+            return http.status == 200;
+        } catch {
+            return false
+        }
+    }
+
+    function loadSounds() {
+        if (window.sound) {
+            Object.keys(sounds).forEach(function (signalName) {
+                var url = "http://" + window.sound + "/" + signalName + ".mp3"
+                if (fileExists(url)) {
+                    var ad = new Audio(url);
+                    ad.load()
+                    sounds[signalName] = ad;
+                    sounds[signalName].load();
+                }
+            })
+        } else {
+            setTimeout(loadSounds, 1000)
+        }
+    }
+
+    $(document).ready(function () {
+        fm_boxs = $(".fm-sb")
+        for (i = 0; i < fm_boxs.length; i++) {
+            $(fm_boxs[i]).addClass("signal-size-" + (font_size));
+        }
+        loadSounds()
+
+
+        // openFullscreen();
+        // goSetUILoaded()
+        var signals = []
+        var prvLastUnix = []
+        var currentLastUnix = 0
+        var prvSignalIds = 0
+        var currentSignalIds = []
+
+        var qod_chart_ctx = document.getElementById('qod_chart').getContext('2d');
+        var groups_chart_ctx = document.getElementById('groups_chart').getContext('2d');
+        groups_chart = new Chart(groups_chart_ctx, {
+            type: 'bar',
+            data: {
+                labels: [],
+                datasets: [{label: 'رنج', data: [], backgroundColor: [],}, {
+                    label: 'قدرت',
+                    data: [],
+                    backgroundColor: [],
+                    borderColor: "#212946",
+                    borderWidth: 3,
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            fontColor: "#fff",
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: "#fff",
+                        }
+                    }]
+                },
+            }
+
+        });
+
+        qod_chart = new Chart(qod_chart_ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'سمت خرید',
+                        data: [],
+                        borderColor: '#00ff41',
+                    },
+                    {
+                        label: 'سمت فروش',
+                        data: [],
+                        borderColor: '#FE53BB',
+                    }
+
+                ]
+            },
+            options: {
+                elements: {
+                    point: {
+                        radius: 0
+                    }
+                },
+
+                legend: {
+                    display: false
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            fontColor: "#fff",
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: "#fff",
+                        }
+                    }]
+                }
+            }
+        });
+
+        $("#full-screen").click(function () {
+            toggleFullScreen();
+        });
+
+        $("#load-force").click(function () {
+            loadForce();
+        });
+
+        $("#load-block").click(function () {
+            loadBlock();
+        });
+
+    });
+</script>
+</body>
+</html>
